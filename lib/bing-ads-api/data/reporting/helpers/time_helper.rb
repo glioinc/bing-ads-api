@@ -61,7 +61,7 @@ module BingAdsApi::Helpers
 				}
 			# Time periods
 			else
-				return { 'PredefinedTime' => TIME_PERIODS[time.to_s]}
+				return { get_attribute_key("predefined_time", keys_case) => TIME_PERIODS[time.to_s]}
 			end
 		end
 

@@ -7,12 +7,12 @@
 # Default defines sandbox urls. For production, check 'production.wsdl' key
 wsdl:
   sandbox:
-    campaign_management: "https://api.sandbox.bingads.microsoft.com/Api/Advertiser/CampaignManagement/v9/CampaignManagementService.svc?singleWsdl"
-    customer_management: "https://clientcenter.api.sandbox.bingads.microsoft.com/Api/CustomerManagement/v9/CustomerManagementService.svc?singleWsdl"
-    reporting: "https://api.sandbox.bingads.microsoft.com/Api/Advertiser/Reporting/V9/ReportingService.svc?singleWsdl"
+    campaign_management: 'https://campaign.api.sandbox.bingads.microsoft.com/Api/Advertiser/CampaignManagement/v11/CampaignManagementService.svc'
+    customer_management: 'https://clientcenter.api.sandbox.bingads.microsoft.com/Api/CustomerManagement/v11/CustomerManagementService.svc'
+    reporting: 'https://reporting.api.sandbox.bingads.microsoft.com/Api/Advertiser/Reporting/v11/ReportingService.svc'
   production:
     campaign_management: 'https://campaign.api.bingads.microsoft.com/Api/Advertiser/CampaignManagement/V11/CampaignManagementService.svc?singleWsdl'
-    customer_management: "https://clientcenter.api.bingads.microsoft.com/Api/CustomerManagement/v9/CustomerManagementService.svc?singleWsdl"
+    customer_management: 'https://clientcenter.api.bingads.microsoft.com/Api/CustomerManagement/v11/CustomerManagementService.svc?singleWsdl'
     reporting: 'https://reporting.api.bingads.microsoft.com/Api/Advertiser/Reporting/V11/ReportingService.svc?singleWsdl'
 
 # All major constants are here
@@ -128,7 +128,6 @@ constants:
   # Constansts specific for campaign management services
   campaign_management:
     budget_limit_type:
-      monthly_budget_spend_until_depleted: 'MonthlyBudgetSpendUntilDepleted'
       daily_budget_accelerated: 'DailyBudgetAccelerated'
       daily_budget_standard: 'DailyBudgetStandard'
     campaign_status:
@@ -137,6 +136,11 @@ constants:
       budget_paused: 'BudgetPaused'
       budget_and_manual_paused: 'BudgetAndManualPaused'
       deleted: 'Deleted'
+      suspended: 'Suspended'
+    campaign_type:
+      search_and_content: 'SearchAndContent'
+      shopping: 'Shopping'
+      dynamic_search_ads: 'DynamicSearchAds'
     ad_distribution:
       search: 'Search'
       content: 'Content'
@@ -311,6 +315,7 @@ constants:
         ctr: "Ctr"
         average_cpc: "AverageCpc"
         spend: "Spend"
+        revenue: "Revenue"
         average_position: "AveragePosition"
         conversions: "Conversions"
         conversion_rate: "ConversionRate"
