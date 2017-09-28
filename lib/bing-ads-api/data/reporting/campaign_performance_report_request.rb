@@ -124,15 +124,11 @@ module BingAdsApi
 		# Returns:: Hash
 		def to_hash(keys = :underscore)
 			hash = super(keys)
-			hash[get_attribute_key('columns', keys)] =
-				columns_to_hash(COLUMNS, columns, keys)
-			if filter
-				hash[get_attribute_key('filter', keys)] =
-					filter_to_hash(FILTERS, keys)
-			end
+			hash.merge!(columns_attributes(keys))
+			hash.merge!(filter_attributes(keys)) if filter
 			hash[get_attribute_key('scope', keys)] = scope_to_hash(keys)
 			hash["@xsi:type"] = type_attribute_for_soap
-			return hash.compact
+			hash.compact
 		end
 
 
@@ -154,6 +150,15 @@ module BingAdsApi
 				return true
 			end
 
+			def columns_attributes(keys)
+				{ get_attribute_key('columns', keys) =>
+					columns_to_hash(COLUMNS, columns, keys) }
+			end
+
+			def filter_attributes(keys)
+				{ get_attribute_key('filter', keys) =>
+					filter_to_hash(FILTERS, keys) }
+			end
 
 			# Internal:: Returns the scope attribute as a hash for the SOAP request
 			#
@@ -164,12 +169,25 @@ module BingAdsApi
 			#
 			# Returns:: Hash
 			def scope_to_hash(keys_case=:underscore)
-				hash = { get_attribute_key('account_ids', keys_case) => {"ins0:long" => object_to_hash(scope[:account_ids], keys_case)} }
-				return hash unless scope[:campaigns]
-				hash.merge(get_attribute_key('campaigns', keys_case) =>
-						{ "CampaignReportScope" => object_to_hash(scope[:campaigns], keys_case) })
+				scope_hash = account_attributes(keys_case)
+				scope_hash.merge!(campaign_attributes) if scope[:campaigns]
+				scope_hash
 			end
 
+			def account_attributes(keys_case)
+				{ get_attribute_key('account_ids', keys_case) =>
+					to_long(object_to_hash(scope[:account_ids], keys_case)) }
+			end
+
+			def campaign_attributes(keys_case)
+				{ get_attribute_key('campaigns', keys_case) =>
+					  { "CampaignReportScope" =>
+							object_to_hash(scope[:campaigns], keys_case) } }
+			end
+
+			def to_long(object)
+				{ 'ins0:long' => object }
+			end
 
 			# Internal:: Returns a string with type attribute for the ReportRequest SOAP tag
 			#
@@ -183,5 +201,4 @@ module BingAdsApi
 			end
 
 	end
-
 end
